@@ -1,4 +1,4 @@
-﻿namespace Loupedeck.MsfsExtensionPlugin
+﻿namespace Loupedeck.MsfsExtensionPlugin.Binding
 {
     using System;
     using System.Collections.Generic;
