@@ -66,12 +66,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\AltitudeEncoder.cs" />
     <Compile Include="Actions\DefaultEncoder.cs" />
+    <Compile Include="BindingKey.cs" />
+    <Compile Include="Bindings.cs" />
+    <Compile Include="Events\FBWAirbusAircraftChanged.cs" />
+    <Compile Include="Events\Notifiable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MsfsExtensionApplication.cs" />
     <Compile Include="MsfsExtensionPlugin.cs" />
     <Compile Include="Helpers\PluginLog.cs" />
     <Compile Include="Actions\CounterAdjustment.cs" />
+    <Compile Include="SimConnect\AirbusPlaneInfoResponse.cs" />
+    <Compile Include="SimConnect\SimConnectService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="metadata\LoupedeckPackage.yaml" />
@@ -79,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\msfsdeck\MsfsPlugin\MsfsPlugin\MsfsPlugin.csproj">
+      <Project>{1ad1275a-d72d-42a3-8469-f670a4561eb6}</Project>
+      <Name>MsfsPlugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

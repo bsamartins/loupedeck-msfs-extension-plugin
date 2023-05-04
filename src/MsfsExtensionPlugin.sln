@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfsExtensionPlugin", "Msfs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimConnectTest", "SimConnectTest\SimConnectTest.csproj", "{6CC3D309-42F0-48E0-83F9-15DA9B8E89CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsfsPlugin", "msfsdeck\MsfsPlugin\MsfsPlugin\MsfsPlugin.csproj", "{1AD1275A-D72D-42A3-8469-F670A4561EB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,14 @@ Global
 		{6CC3D309-42F0-48E0-83F9-15DA9B8E89CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CC3D309-42F0-48E0-83F9-15DA9B8E89CF}.Release|x64.ActiveCfg = Release|x64
 		{6CC3D309-42F0-48E0-83F9-15DA9B8E89CF}.Release|x64.Build.0 = Release|x64
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Debug|x64.ActiveCfg = Debug|x64
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Debug|x64.Build.0 = Debug|x64
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Release|x64.ActiveCfg = Release|x64
+		{1AD1275A-D72D-42A3-8469-F670A4561EB6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

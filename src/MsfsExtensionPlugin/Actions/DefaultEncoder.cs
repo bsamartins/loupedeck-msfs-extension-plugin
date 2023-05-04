@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
-
+    using Loupedeck.MsfsExtensionPlugin.Events;
     using Loupedeck.MsfsPlugin.tools;
+    using Loupedeck.MsfsPlugin;
 
     public abstract class DefaultEncoder : PluginDynamicAdjustment, Notifiable
     {
@@ -19,7 +20,7 @@
             this.min = min;
             this.max = max;
             this.step = step;
-            MsfsData.Instance.Register(this);
+            //MsfsData.Instance.Register(this);
         }
 
         protected override void ApplyAdjustment(String actionParameter, Int32 ticks)
