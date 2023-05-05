@@ -7,7 +7,10 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using Loupedeck.MsfsExtensionPlugin.SimConnect;
+
     internal interface FBWAirbusAircraftChanged
-    {       
+    {
+        void OnAircraftChanged(AirbusPlaneInfoResponse e);
     }
 }

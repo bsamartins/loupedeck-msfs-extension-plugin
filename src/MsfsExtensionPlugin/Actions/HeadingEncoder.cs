@@ -2,13 +2,15 @@
 {
     using System;
 
+    using Loupedeck.MsfsExtensionPlugin.Events;
     using Loupedeck.MsfsExtensionPlugin.SimConnect;
+    using Loupedeck.MsfsExtensionPlugin.Helpers;
 
-    internal class AltitudeEncoder : AirbusFCUEncoder
+    internal class HeadingEncoder : AirbusFCUEncoder
     {
         private Int64 _selected = 0;
         private Int64 _indicated = 0;
-        public AltitudeEncoder() : base("Alt", "Altitude", "Fly By Wire", true) { }
+        public HeadingEncoder() : base("Head", "Heading", "Fly By Wire", true) { }
 
         protected override String GetAdjustmentValue(String actionParameter)
         {
@@ -18,7 +20,9 @@
 
         protected override void ApplyAdjustment(String actionParameter, Int32 diff)
         {
-            this._selected += diff * 100;
+            var newValue = ConvertTool.ApplyAdjustment(this._selected, diff, 0, 360, 1);
+            this._selected = newValue;            
+            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_VAR_INC, 1);            
             this.AdjustmentValueChanged();
         }
 
@@ -33,8 +37,10 @@
         }
 
         override public void OnAircraftChanged(AirbusPlaneInfoResponse e) {
-            this._selected = e.FcuAltSet;
-            this._indicated = e.IndicatedAltitude;
+            PluginLog.Info($"Selected airspeed {e.AutopilotHeadingSelected}");
+            this._selected = e.AutopilotHeadingSelected;
+            this._indicated = e.HeadingIndicator;
+            this.Managed = e.AutopilotHeadingSlotIndex == 2;
             this.AdjustmentValueChanged();
         }
     }

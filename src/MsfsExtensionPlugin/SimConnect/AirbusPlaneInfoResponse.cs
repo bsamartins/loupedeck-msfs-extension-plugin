@@ -14,5 +14,21 @@
         public Boolean FcVsManaged;
         [SimVar(Name = "L:A32NX_TRK_FPA_MODE_ACTIVE", UnitId = FsUnit.Bool)]
         public Boolean TrackFpaModeActive;
+        [SimVar(Name = "L:A32NX.FCU_ALT_SET", UnitId = FsUnit.Feet)]
+        public Int32 FcuAltSet;
+        [SimVar(Name = "AUTOPILOT SPEED SLOT INDEX", UnitId = FsUnit.Number)]
+        public Int32 AutopilotSpeedSlotIndex;
+        [SimVar(Name = "L:A32NX_AUTOPILOT_SPEED_SELECTED", UnitId = FsUnit.Number)]
+        public Int32 AutopilotSpeedSelected;
+        [SimVar(Name = "AIRSPEED INDICATED", UnitId = FsUnit.Knots)]
+        public Int32 AirspeedIndicated;
+        [SimVar(Name = "L:A32NX_AUTOPILOT_HEADING_SELECTED", UnitId = FsUnit.Degree)]
+        public Int32 AutopilotHeadingSelected;
+        [SimVar(Name = "HEADING INDICATOR", UnitId = FsUnit.Degree)]
+        public Int32 HeadingIndicator;
+        [SimVar(Name = "AUTOPILOT HEADING SLOT INDEX", UnitId = FsUnit.Number)]
+        public Int32 AutopilotHeadingSlotIndex;
+        [SimVar(Name = "INDICATED ALTITUDE", UnitId = FsUnit.Feet)]
+        public Int32 IndicatedAltitude;
     }
 }
