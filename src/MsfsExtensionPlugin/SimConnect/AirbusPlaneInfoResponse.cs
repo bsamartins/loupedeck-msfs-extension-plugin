@@ -30,5 +30,7 @@
         public Int32 AutopilotHeadingSlotIndex;
         [SimVar(Name = "INDICATED ALTITUDE", UnitId = FsUnit.Feet)]
         public Int32 IndicatedAltitude;
+        [SimVar(Name = "L:XMLVAR_AUTOPILOT_ALTITUDE_INCREMENT", UnitId = FsUnit.Feet)]
+        public Int32 AutopilotAltitudeIncrement;
     }
 }
