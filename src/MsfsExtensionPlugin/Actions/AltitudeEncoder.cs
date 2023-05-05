@@ -2,6 +2,7 @@
 {
     using System;
 
+    using Loupedeck.MsfsExtensionPlugin.Helpers;
     using Loupedeck.MsfsExtensionPlugin.SimConnect;
 
     internal class AltitudeEncoder : AirbusFCUEncoder
@@ -18,7 +19,9 @@
 
         protected override void ApplyAdjustment(String actionParameter, Int32 diff)
         {
-            this._selected += diff * 100;
+            var value = ConvertTool.ApplyAdjustment(this._selected, diff, 100, 49999, 1);
+            this._selected = value;
+            SimConnectService.Instance.SendCommand(SendEvent.AP_ALT_VAR_SET_ENGLISH, value);
             this.AdjustmentValueChanged();
         }
 
@@ -33,7 +36,7 @@
         }
 
         override public void OnAircraftChanged(AirbusPlaneInfoResponse e) {
-            this._selected = e.FcuAltSet;
+            this._selected = e.AutoPilotAltitudeLockVar;
             this._indicated = e.IndicatedAltitude;
             this.AdjustmentValueChanged();
         }

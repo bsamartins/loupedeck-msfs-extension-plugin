@@ -100,6 +100,7 @@
                 case SendEvent.AP_SPD_VAR_DEC: return "AP_SPD_VAR_DEC";
                 case SendEvent.AP_SPD_VAR_INC: return "AP_SPD_VAR_INC";
                 case SendEvent.AP_SPD_VAR_SET: return "AP_SPD_VAR_SET";
+                case SendEvent.AP_ALT_VAR_SET_ENGLISH: return "AP_ALT_VAR_SET_ENGLISH";
                 default: throw new NotImplementedException($"Missing var name for {v}");
             }
         }
@@ -109,7 +110,8 @@
         A32NX_FCU_SPD_SET,
         AP_SPD_VAR_DEC,
         AP_SPD_VAR_INC,
-        AP_SPD_VAR_SET
+        AP_SPD_VAR_SET,
+        AP_ALT_VAR_SET_ENGLISH
     }
 
     internal enum EventGroup { 
