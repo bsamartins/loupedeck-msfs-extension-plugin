@@ -1,0 +1,1 @@
+# loupedeck-msfs-extension-plugin
