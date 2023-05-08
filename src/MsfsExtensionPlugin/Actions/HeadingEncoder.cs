@@ -2,12 +2,14 @@
 {
     using System;
 
+    using Loupedeck;
     using Loupedeck.MsfsExtensionPlugin.SimConnect;
 
     internal class HeadingEncoder : AirbusFCUEncoder
     {
         private Int64 _selected = 0;
         private Int64 _indicated = 0;
+        private Boolean _track = false;
         public HeadingEncoder() : base("HDG", "Heading", "Fly By Wire", true) { }
 
         protected override String GetAdjustmentValue(String actionParameter)
@@ -42,6 +44,9 @@
             this._selected = e.AutopilotHeadingSelected;
             this._indicated = e.HeadingIndicator;
             this.Managed = e.AutopilotHeadingSlotIndex == 2;
+            this._track = e.TrackFpaModeActive;
+            this.DisplayName = this._track ? "TRK" : "HDG";
+            PluginLog.Info($"Tracking: {this._track}");
             this.AdjustmentValueChanged();
         }
     }
