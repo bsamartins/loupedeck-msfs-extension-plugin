@@ -1,0 +1,3 @@
+[submodule "src/msfsdeck"]
+	path = src/msfsdeck
+	url = https://github.com/calibx/msfsdeck
