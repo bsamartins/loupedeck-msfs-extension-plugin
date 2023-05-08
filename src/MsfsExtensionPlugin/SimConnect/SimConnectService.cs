@@ -31,7 +31,7 @@
         private readonly Timer _timer = new Timer(500);
 
         SimConnectService() {
-            this._fsConnect.Connect("TestApp");
+            this._fsConnect.Connect("Test Loupedeck Plugin");
             this._fsConnect.FsError += this.HandleError;
 
             this._requestId = this._fsConnect.GetNextId();
@@ -44,8 +44,9 @@
             foreach (SendEvent e in Enum.GetValues(typeof(SendEvent)))
             {
                 var varName = getVarName(e);
-                PluginLog.Info($"Registering event: {e} -> {varName}");
-                this._fsConnect.MapClientEventToSimEvent(EventGroup.UNKNOWN, e, varName);
+                PluginLog.Info($"Registering event: [{(int)e}]{e} -> {varName}");
+                this._fsConnect.GetSimConnect().MapClientEventToSimEvent(e, varName);
+                //this._fsConnect.MapClientEventToSimEvent(EventGroup.UNKNOWN, e, varName);
             }
         }
 
@@ -79,8 +80,8 @@
         {
             var varName = getVarName(e);
             PluginLog.Info($"Sending event {e}[{varName}]={data}");
-            this._fsConnect.TransmitClientEvent(e, data, EventGroup.UNKNOWN);
-            //this._fsConnect.GetSimConnect().TransmitClientEvent(0, e, data, EventGroup.UNKNOWN, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            //this._fsConnect.TransmitClientEvent(e, data, EventGroup.UNKNOWN);
+            this._fsConnect.GetSimConnect().TransmitClientEvent(0, e, data, EventGroup.UNKNOWN, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void ChangeHandler(Object sender, AircraftInfoUpdatedEventArgs<AirbusPlaneInfoResponse> e) {

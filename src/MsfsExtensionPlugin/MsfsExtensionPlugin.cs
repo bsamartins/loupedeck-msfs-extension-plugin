@@ -2,6 +2,8 @@ namespace Loupedeck.MsfsExtensionPlugin
 {
     using System;
 
+    using Loupedeck.MsfsExtensionPlugin.SimConnect;
+
     // This class contains the plugin-level logic of the Loupedeck plugin.
 
     public class MsfsExtensionPlugin : Plugin
@@ -22,6 +24,7 @@ namespace Loupedeck.MsfsExtensionPlugin
         // This method is called when the plugin is unloaded during the Loupedeck service shutdown.
         public override void Unload()
         {
+            SimConnectService.Instance.Stop();
         }
     }
 }

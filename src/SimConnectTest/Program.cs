@@ -20,7 +20,9 @@ namespace SimConnectTest
                 simconnect = new SimConnect("Managed Data Request", IntPtr.Zero, WM_USER_SIMCONNECT, null, 0);
                 simconnect.OnRecvOpen += Simconnect_OnRecvOpen;
                 simconnect.OnRecvEvent += Simconnect_OnRecvEvent;
-                simconnect.OnRecvSimobjectDataBytype += Simconnect_OnRecvSimobjectDataBytype;               
+                simconnect.OnRecvSimobjectDataBytype += Simconnect_OnRecvSimobjectDataBytype;
+                simconnect.MapClientEventToSimEvent((EventEnum)0, "A32NX.FCU_ALT_INC");
+                simconnect.TransmitClientEvent(0, (EventEnum)0, 0, (EventEnum)0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
             }
             catch (COMException ex)
             {
@@ -46,4 +48,6 @@ namespace SimConnectTest
             Console.WriteLine("Event");
         }
     }
+
+    enum EventEnum {}
 }
