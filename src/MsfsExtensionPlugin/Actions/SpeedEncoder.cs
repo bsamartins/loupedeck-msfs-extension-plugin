@@ -22,7 +22,7 @@
         {
             var newValue = ConvertTool.ApplyAdjustment(this._selectedSpeed, diff, 0, 399, 1);
             this._selectedSpeed = newValue;            
-            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_VAR_INC, 1);            
+            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_INC, 1);            
             this.AdjustmentValueChanged();
         }
 
@@ -37,7 +37,6 @@
         }
 
         override public void OnAircraftChanged(AirbusPlaneInfoResponse e) {
-            PluginLog.Info($"Selected airspeed {e.AutopilotSpeedSelected}");
             this._selectedSpeed = e.AutopilotSpeedSelected;
             this._indicatedSpeed = e.AirspeedIndicated;
             this.Managed = e.AutopilotSpeedSlotIndex == 2;

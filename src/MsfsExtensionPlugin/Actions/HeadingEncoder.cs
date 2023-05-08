@@ -22,7 +22,7 @@
         {
             var newValue = ConvertTool.ApplyAdjustment(this._selected, diff, 0, 360, 1);
             this._selected = newValue;            
-            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_VAR_INC, 1);            
+            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_INC, 1);            
             this.AdjustmentValueChanged();
         }
 
@@ -37,7 +37,6 @@
         }
 
         override public void OnAircraftChanged(AirbusPlaneInfoResponse e) {
-            PluginLog.Info($"Selected airspeed {e.AutopilotHeadingSelected}");
             this._selected = e.AutopilotHeadingSelected;
             this._indicated = e.HeadingIndicator;
             this.Managed = e.AutopilotHeadingSlotIndex == 2;

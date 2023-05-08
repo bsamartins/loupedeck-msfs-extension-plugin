@@ -20,9 +20,23 @@
 
         protected override void ApplyAdjustment(String actionParameter, Int32 diff)
         {
-            var value = ConvertTool.ApplyAdjustment(this._selected, diff, 100, 49999, this._step);
-            this._selected = value;
-            SimConnectService.Instance.SendCommand(SendEvent.AP_ALT_VAR_SET_ENGLISH, value);
+            PluginLog.Info($"diff: {diff}");
+            //var value = ConvertTool.ApplyAdjustment(this._selected, diff, 100, 49999, this._step);
+            //this._selected = value;
+            var steps = Math.Abs(diff);            
+            for (var i = 0; i < steps; i++)
+            {
+                if (diff > 0)
+                {
+                    SimConnectService.Instance.SendCommand(SendEvent.AP_ALT_DEC);
+                    SimConnectService.Instance.SendCommand(SendEvent.FBW_AP_ALT_DEC);
+                }
+                else if (diff < 0)
+                {
+                    SimConnectService.Instance.SendCommand(SendEvent.AP_ALT_INC);
+                    SimConnectService.Instance.SendCommand(SendEvent.FBW_AP_ALT_INC);
+                }
+            }
             this.AdjustmentValueChanged();
         }
 
