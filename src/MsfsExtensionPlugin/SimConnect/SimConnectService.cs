@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
+    using System.Threading;
     using System.Timers;
 
     using CTrue.FsConnect;
@@ -12,11 +12,10 @@
     using Loupedeck.MsfsExtensionPlugin.Events;
 
     using Microsoft.FlightSimulator.SimConnect;
-   
+
 
     internal class SimConnectService
     {
-        private static Boolean _initialized = false;
         private static readonly Lazy<SimConnectService> _instance = new Lazy<SimConnectService>(() => {
             var service = new SimConnectService();
             service.Start();
@@ -24,36 +23,48 @@
         });
         internal static SimConnectService Instance => _instance.Value;
 
+        private readonly SimConnect _simConnect;
+        private readonly EventWaitHandle _simConnectEventHandle = new EventWaitHandle(initialState: false, EventResetMode.AutoReset);
         private readonly FsConnect _fsConnect = new FsConnect();
         private readonly List<FBWAirbusAircraftChanged> _fbwAirbusAircaftChangeListeners = new List<FBWAirbusAircraftChanged>();
         private readonly AircraftManager<AirbusPlaneInfoResponse> _aircraftManager;
-        private readonly Int32 _requestId;
-        private readonly Timer _timer = new Timer(500);
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer(250);
 
         SimConnectService() {
-            this._fsConnect.Connect("Test Loupedeck Plugin");
-            this._fsConnect.FsError += this.HandleError;
+            try
+            {
+                _simConnect = new SimConnect("Test Loupedeck Plugin [0]", IntPtr.Zero, 0u, this._simConnectEventHandle, 0);
+            }
+            catch (Exception ex)
+            {
+                _simConnect = null;
+                throw new Exception("Could not connect to Flight Simulator: " + ex.Message, ex);
+            }
 
-            this._requestId = this._fsConnect.GetNextId();
+            this._fsConnect.Connect("Test Loupedeck Plugin [1]");
+            this._fsConnect.FsError += this.HandleError;
             var planeInfoDefinitionId = this._fsConnect.RegisterDataDefinition<AirbusPlaneInfoResponse>();
-            this._aircraftManager = new AircraftManager<AirbusPlaneInfoResponse>(this._fsConnect, planeInfoDefinitionId, this._requestId);
+
+            this._aircraftManager = new AircraftManager<AirbusPlaneInfoResponse>(this._fsConnect, planeInfoDefinitionId, (Int32)DataDef.DEFAULT);
             this._aircraftManager.Updated += this.ChangeHandler;
             this._aircraftManager.RequestMethod = RequestMethod.Continuously;
+
             this._timer.Elapsed += this.OnTick;
             
             foreach (SendEvent e in Enum.GetValues(typeof(SendEvent)))
             {
                 var varName = getVarName(e);
-                PluginLog.Info($"Registering event: [{(int)e}]{e} -> {varName}");
-                this._fsConnect.GetSimConnect().MapClientEventToSimEvent(e, varName);
-                //this._fsConnect.MapClientEventToSimEvent(EventGroup.UNKNOWN, e, varName);
+                PluginLog.Info($"Registering event: {e}({(Int32)e}) -> {varName}");
+                // this._fsConnect.MapClientEventToSimEvent(EventGroup.UNKNOWN, e, varName);
+                // this._fsConnect.GetSimConnect().MapClientEventToSimEvent(e, varName);
+                this._simConnect.MapClientEventToSimEvent(e, varName);
             }
         }
 
         private void HandleError(Object sender, FsErrorEventArgs e) => PluginLog.Error($"SimConnect error: [{e.SendID}] {e.ExceptionCode} - [{e.Index}] {e.ExceptionDescription}");
 
         private void OnTick(Object sender, ElapsedEventArgs e) {
-            this._aircraftManager.Get(); 
+            this._aircraftManager.Get();
         }
 
         internal void RegisterChangeHandler(FBWAirbusAircraftChanged handler) {
@@ -73,15 +84,15 @@
         internal void Stop() {            
             PluginLog.Info("Stopping service");
             this._timer.Stop();
-            this._timer.Start();
         }
 
         internal void SendCommand(SendEvent e, uint data = 0)
         {
             var varName = getVarName(e);
             PluginLog.Info($"Sending event {e}[{varName}]={data}");
-            //this._fsConnect.TransmitClientEvent(e, data, EventGroup.UNKNOWN);
-            this._fsConnect.GetSimConnect().TransmitClientEvent(0, e, data, EventGroup.UNKNOWN, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            // this._fsConnect.TransmitClientEvent(e, data, EventGroup.UNKNOWN);
+            // this._fsConnect.GetSimConnect().TransmitClientEvent(0, e, data, EventGroup.UNKNOWN, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+            this._simConnect.TransmitClientEvent(0, e, data, EventGroup.UNKNOWN, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
         }
 
         private void ChangeHandler(Object sender, AircraftInfoUpdatedEventArgs<AirbusPlaneInfoResponse> e) {
@@ -124,6 +135,10 @@
         AP_ALT_INC,
         FBW_AP_ALT_DEC,
         FBW_AP_ALT_INC,
+    }
+
+    internal enum DataDef { 
+        DEFAULT
     }
 
     internal enum EventGroup { 
