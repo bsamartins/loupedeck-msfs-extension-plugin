@@ -2,15 +2,13 @@
 {
     using System;
 
-    using Loupedeck.MsfsExtensionPlugin.Events;
     using Loupedeck.MsfsExtensionPlugin.SimConnect;
-    using Loupedeck.MsfsExtensionPlugin.Helpers;
 
     internal class HeadingEncoder : AirbusFCUEncoder
     {
         private Int64 _selected = 0;
         private Int64 _indicated = 0;
-        public HeadingEncoder() : base("Head", "Heading", "Fly By Wire", true) { }
+        public HeadingEncoder() : base("HDG", "Heading", "Fly By Wire", true) { }
 
         protected override String GetAdjustmentValue(String actionParameter)
         {
@@ -20,10 +18,14 @@
 
         protected override void ApplyAdjustment(String actionParameter, Int32 diff)
         {
-            var newValue = ConvertTool.ApplyAdjustment(this._selected, diff, 0, 360, 1);
-            this._selected = newValue;            
-            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_INC, 1);            
-            this.AdjustmentValueChanged();
+            if (diff < 0)
+            {
+                SimConnectService.Instance.SendCommand(SendEvent.HEADING_BUG_DEC);
+            }
+            else if (diff > 0)
+            {
+                SimConnectService.Instance.SendCommand(SendEvent.HEADING_BUG_INC);
+            }
         }
 
         protected override Boolean OnLoad() {

@@ -2,15 +2,13 @@
 {
     using System;
 
-    using Loupedeck.MsfsExtensionPlugin.Events;
     using Loupedeck.MsfsExtensionPlugin.SimConnect;
-    using Loupedeck.MsfsExtensionPlugin.Helpers;
 
     internal class SpeedEncoder : AirbusFCUEncoder
     {
         private Int64 _selectedSpeed = 0;
         private Int64 _indicatedSpeed = 0;
-        public SpeedEncoder() : base("Speed", "Speed", "Fly By Wire", true) { }
+        public SpeedEncoder() : base("SPD", "Speed", "Fly By Wire", true) { }
 
         protected override String GetAdjustmentValue(String actionParameter)
         {
@@ -20,10 +18,14 @@
 
         protected override void ApplyAdjustment(String actionParameter, Int32 diff)
         {
-            var newValue = ConvertTool.ApplyAdjustment(this._selectedSpeed, diff, 0, 399, 1);
-            this._selectedSpeed = newValue;            
-            SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_INC, 1);            
-            this.AdjustmentValueChanged();
+            if (diff < 0)
+            {
+                SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_DEC);
+            } 
+            else if (diff > 0)
+            {
+                SimConnectService.Instance.SendCommand(SendEvent.AP_SPD_INC);
+            }            
         }
 
         protected override Boolean OnLoad() {

@@ -109,6 +109,8 @@
                 case SendEvent.AP_ALT_SET: return "AP_ALT_VAR_SET_ENGLISH";
                 case SendEvent.AP_ALT_DEC: return "AP_ALT_VAR_DEC";
                 case SendEvent.AP_ALT_INC: return "AP_ALT_VAR_INC";
+                case SendEvent.HEADING_BUG_DEC: return "HEADING_BUG_DEC";
+                case SendEvent.HEADING_BUG_INC: return "HEADING_BUG_INC";
                 case SendEvent.FBW_AP_ALT_DEC: return "A32NX.FCU_ALT_DEC";
                 case SendEvent.FBW_AP_ALT_INC: return "A32NX.FCU_ALT_INC";
                 default: throw new NotImplementedException($"Missing var name for {v}");
@@ -133,6 +135,8 @@
         AP_ALT_SET,
         AP_ALT_DEC,
         AP_ALT_INC,
+        HEADING_BUG_DEC,
+        HEADING_BUG_INC,
         FBW_AP_ALT_DEC,
         FBW_AP_ALT_INC,
     }

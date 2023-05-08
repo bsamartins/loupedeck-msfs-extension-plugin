@@ -8,7 +8,7 @@
     {
         private Int64 _selected = 0;
         private Int64 _indicated = 0;
-        public AltitudeEncoder() : base("Alt", "Altitude", "Fly By Wire", true) { }
+        public AltitudeEncoder() : base("ALT", "Altitude", "Fly By Wire", true) { }
 
         protected override String GetAdjustmentValue(String actionParameter)
         {
