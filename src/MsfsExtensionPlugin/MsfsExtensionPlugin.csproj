@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\AirbusFCUEncoder.cs" />
+    <Compile Include="Actions\VerticalSpeedEncoder.cs" />
     <Compile Include="Actions\HeadingEncoder.cs" />
     <Compile Include="Actions\SpeedEncoder.cs" />
     <Compile Include="Actions\AltitudeEncoder.cs" />

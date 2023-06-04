@@ -32,5 +32,9 @@
         public Int32 IndicatedAltitude;
         [SimVar(Name = "L:XMLVAR_AUTOPILOT_ALTITUDE_INCREMENT", UnitId = FsUnit.Feet)]
         public Int32 AutopilotAltitudeIncrement;
+        [SimVar(Name = "L:A32NX_AUTOPILOT_VS_SELECTED", UnitId = FsUnit.FeetPerMinute)]
+        public Int32 AutopilotVsSelected;
+        [SimVar(Name = "L:A32NX_AUTOPILOT_FPA_SELECTED", UnitId = FsUnit.Degree)]
+        public Double AutopilotFpaSelected;
     }
 }

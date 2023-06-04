@@ -44,6 +44,7 @@
             PluginLog.Info($"Got airbus info: {e.AutoPilotAltitudeLockVar} / {e.AutopilotAltitudeIncrement} / {e.IndicatedAltitude}");
             this._selected = e.AutoPilotAltitudeLockVar;
             this._indicated = e.IndicatedAltitude;
+            this.Managed = e.FcVsManaged;
             //this._step = e.AutopilotAltitudeIncrement;
             this.AdjustmentValueChanged();
         }
